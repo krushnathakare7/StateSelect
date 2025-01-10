@@ -15,7 +15,9 @@ const Select = ({ data, setter, isDisabled, option }) => {
       >
         <option>Select {option}</option>
         {data.map((ele, idx) => (
-          <option key={idx}>{ele}</option>
+          <option key={idx} value={ele}>
+            {ele}
+          </option>
         ))}
       </select>
     </div>
@@ -49,7 +51,10 @@ function App() {
 
   useEffect(() => {
     const fetchStates = async () => {
-      if (!selectedCountry) return;
+      if (!selectedCountry) {
+        setState([]);
+        return;
+      }
       try {
         const response = await fetch(`https://crio-location-selector.onrender.com/country=${selectedCountry}/states`);
         if (!response.ok) throw new Error('Failed to fetch states');
@@ -66,7 +71,10 @@ function App() {
 
   useEffect(() => {
     const fetchCities = async () => {
-      if (!selectedCountry || !selectedState) return;
+      if (!selectedCountry || !selectedState) {
+        setCity([]);
+        return;
+      }
       try {
         const response = await fetch(
           `https://crio-location-selector.onrender.com/country=${selectedCountry}/state=${selectedState}/cities`
